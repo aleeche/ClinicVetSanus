@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.shape.Rectangle?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="439.0" prefWidth="1150.0" styleClass="anchorPane1" stylesheets="@../resource/plantilla.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.alejandroecheverria.controller.ClienteController">
+   <children>
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#f45eac" height="446.0" layoutX="-8.0" layoutY="-2.0" smooth="false" stroke="TRANSPARENT" strokeType="INSIDE" width="202.0" />
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#1f93ff00" height="439.0" stroke="#433d3d" strokeType="INSIDE" strokeWidth="4.0" width="196.0" />
+      <Button layoutX="9.1" layoutY="156.8" mnemonicParsing="false" prefHeight="80.8" prefWidth="82.9" styleClass="button1">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+         <graphic>
+            <ImageView fitHeight="64.0" fitWidth="63.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../image/IconNuevo.png" />
+               </image>
+            </ImageView>
+         </graphic>
+      </Button>
+      <Button layoutX="97.0" layoutY="156.8" mnemonicParsing="false" prefHeight="80.8" prefWidth="82.9" styleClass="button1">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+         <graphic>
+            <ImageView fitHeight="64.0" fitWidth="63.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../image/IconEliminar.png" />
+               </image>
+            </ImageView>
+         </graphic>
+      </Button>
+      <Button layoutX="9.1" layoutY="260.8" mnemonicParsing="false" prefHeight="80.8" prefWidth="82.9" styleClass="button1">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+         <graphic>
+            <ImageView fitHeight="64.0" fitWidth="63.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../image/IconEditar.png" />
+               </image>
+            </ImageView>
+         </graphic>
+      </Button>
+      <Button layoutX="97.0" layoutY="260.8" mnemonicParsing="false" prefHeight="80.8" prefWidth="82.9" styleClass="button1">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+         <graphic>
+            <ImageView fitHeight="64.0" fitWidth="63.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../image/IconReporte.png" />
+               </image>
+            </ImageView>
+         </graphic>
+      </Button>
+      <Button layoutX="45.6" layoutY="26.2" mnemonicParsing="false" prefHeight="100.8" prefWidth="102.9" styleClass="button2">
+         <graphic>
+            <ImageView fitHeight="85.0" fitWidth="85.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../image/IconClientes.png" />
+               </image>
+            </ImageView>
+         </graphic>
+      </Button>
+      <ImageView fitHeight="76.0" fitWidth="79.0" layoutX="56.0" layoutY="356.0" onMouseClicked="#menuPrincipal" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../image/casa.png" />
+         </image>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </ImageView>
+   </children>
+</AnchorPane>

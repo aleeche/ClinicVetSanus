@@ -1,0 +1,76 @@
+/*
+Colores:
+Café #433D3D
+Cian #25ABBE
+Rosado #F45EAC
+Amarillo #FDCD12
+Azul #1A6DAF
+Blanco #F2F2F2
+*/
+
+/* Estilo para la barra de menús */
+.menu-bar {
+    -fx-background-color: #25ABBE; /* Color de fondo */
+    -fx-background-radius: 10 10 10 10; /* Radio de los bordes */
+    -fx-border-width: 1px; /* Ancho del borde */
+    -fx-border-radius: 10 10 10 10; /* Radio de los bordes */
+    -fx-text-fill: #F2F2F2; /* Color del texto */
+}
+
+/* Estilo para los menús dentro del MenuBar */
+.menu-bar .menu {
+    -fx-background-color: #25ABBE; /* Color de fondo */
+    -fx-text-fill: #575759; /* Color del texto */
+    -fx-font-size: 14px; /* Tamaño de la fuente */
+    -fx-padding: 5px; /* Espaciado dentro del menú */
+    
+}
+
+ 
+.menu-bar .menu:hover {
+    -fx-background-color: #F45EAC; /* Cambio de color de fondo */
+    -fx-background-radius: 3 3 3 3; /* Ajuste del radio de bordes */
+    -fx-text-fill: #F2F2F2; /* Color del texto */
+    -fx-border-color: #F2F2F2; /* Color del borde */
+    -fx-border-width: 1px; /* Ancho del borde */
+    -fx-border-radius: 3 3 3 3; /* Radio de los bordes */
+}
+
+.menu-bar .menu:showing {
+    -fx-background-color: #F45EAC; /* Cambio de color de fondo */
+    -fx-background-radius: 3 3 3 3; /* Ajuste del radio de bordes */
+    -fx-text-fill: #F2F2F2; /* Color del texto */
+    -fx-border-color: #F2F2F2; /* Color del borde */
+    -fx-border-width: 1px; /* Ancho del borde */
+    -fx-border-radius: 3 3 3 3; /* Radio de los bordes */
+}
+
+/*Estilos para los items de los menús*/
+.menu-bar .menu:pressed {
+    -fx-background-color: #F45EAC; /* Color de fondo al presionar */
+    -fx-background-radius: 8 8 8 8; /* Radio de los bordes */
+    -fx-border-color: #F2F2F2; /* Color del borde */
+    -fx-text-fill: #F2F2F2; /* Color del texto */
+    -fx-border-width: 0px; /* Borde invisible */
+}
+
+.menu-item {
+    -fx-background-color: #25ABBE; /* Cambio de color de fondo */
+    -fx-background-radius: 3 3 3 3; /* Ajuste del radio de bordes */
+    -fx-border-color: #433D3D; /* Color del borde */
+    -fx-text-fill: #433D3D; /* Color del texto */
+}
+
+.menu-item:hover {
+    -fx-background-color: #F45EAC; /* Cambio de color de fondo */
+    -fx-background-radius: 3 3 3 3; /* Ajuste del radio de bordes */
+    -fx-border-color: #F2F2F2; /* Color del borde */
+    -fx-text-fill: #F2F2F2; /* Color del texto */
+}
+
+/* Color de fondo de la pestaña desplegable */
+.context-menu {
+    -fx-background-color: transparent;
+    -fx-text-fill: #F2F2F2; /* Color del texto */
+
+}

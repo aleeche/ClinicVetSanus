@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="ReporteCarneVacunacion" language="groovy" pageWidth="612" pageHeight="792" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="d1d9f0da-9b57-462e-8aef-75e572e3caeb">
+	<property name="ireport.zoom" value="1.9487171000000019"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="363"/>
+	<parameter name="imagenMembrete" class="java.awt.Image"/>
+	<queryString>
+		<![CDATA[call sp_ReporteCarneVacunaciones]]>
+	</queryString>
+	<field name="Cliente" class="java.lang.String"/>
+	<field name="telefonoCliente" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="nombreMascota" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="especie" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Veterinario" class="java.lang.String"/>
+	<field name="nombreVacuna" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="observaciones" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="fechaAplicacion" class="java.sql.Date">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<group name="Mascota" isStartNewPage="true" isReprintHeaderOnEachPage="true">
+		<groupExpression><![CDATA[$F{nombreMascota}]]></groupExpression>
+		<groupHeader>
+			<band height="156">
+				<rectangle>
+					<reportElement x="2" y="1" width="568" height="34" forecolor="#433D3D" backcolor="#FDCD12" uuid="9782f24e-ced6-46d4-b6cc-1162f2b8065c"/>
+					<graphicElement>
+						<pen lineWidth="1.5"/>
+					</graphicElement>
+				</rectangle>
+				<rectangle>
+					<reportElement x="2" y="117" width="568" height="34" forecolor="#433D3D" backcolor="#25ABBE" uuid="fa9ab600-4380-4bde-93ae-ba637ae519ee"/>
+					<graphicElement>
+						<pen lineWidth="1.5"/>
+					</graphicElement>
+				</rectangle>
+				<staticText>
+					<reportElement x="17" y="52" width="92" height="19" uuid="05ec2d16-8c00-4225-804b-a981158c844f"/>
+					<textElement>
+						<font size="11" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Nombre Cliente:]]></text>
+				</staticText>
+				<textField>
+					<reportElement x="109" y="52" width="186" height="19" uuid="c1702737-06e2-419a-b237-b6f81e75ffb7"/>
+					<textElement>
+						<font size="11"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{Cliente}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="17" y="83" width="92" height="19" uuid="afdf6e4e-8662-47cb-b98a-a68512c05ddd"/>
+					<textElement>
+						<font size="11" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Teléfono Cliente:]]></text>
+				</staticText>
+				<textField>
+					<reportElement x="111" y="83" width="161" height="19" uuid="13c2a8fa-dc1b-4733-80ee-637b69189f92"/>
+					<textElement>
+						<font size="11"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{telefonoCliente}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="305" y="52" width="96" height="19" uuid="a927ba4d-c0f4-4c1f-b210-24edb35af839"/>
+					<textElement>
+						<font size="11" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Nombre Mascota:]]></text>
+				</staticText>
+				<textField>
+					<reportElement x="401" y="52" width="147" height="19" uuid="3a0e7607-d882-4d72-9664-8237245b4ab0"/>
+					<textElement>
+						<font size="11"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{nombreMascota}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="305" y="83" width="51" height="19" uuid="15566b8c-821d-42af-a25a-8a24bd045fa9"/>
+					<textElement>
+						<font size="11" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Especie:]]></text>
+				</staticText>
+				<textField>
+					<reportElement x="356" y="83" width="192" height="19" uuid="bd47c6da-66c5-4ed2-85f8-91261fbc9eed"/>
+					<textElement>
+						<font size="11"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{especie}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="4" y="126" width="92" height="19" forecolor="#433D3D" uuid="1c288176-fc0c-4ea1-addf-642f45e44336"/>
+					<textElement>
+						<font size="11" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Nombre Vacuna]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="119" y="126" width="92" height="19" forecolor="#433D3D" uuid="f8d4081f-d676-487f-87ad-2715a369a8c7"/>
+					<textElement>
+						<font size="11" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Observaciones]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="270" y="126" width="128" height="19" forecolor="#433D3D" uuid="82596886-577d-4250-ae8f-94973cd02682"/>
+					<textElement>
+						<font size="11" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Fecha Aplicación]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="420" y="126" width="140" height="19" forecolor="#433D3D" uuid="bfd60a63-0f52-479a-9e26-7e90f5b0a0f4"/>
+					<textElement>
+						<font size="11" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Veterinario]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="12" y="3" width="311" height="34" forecolor="#433D3D" uuid="8b37b8a8-62f8-4266-a428-0608ef9df458"/>
+					<textElement>
+						<font fontName="Comic Sans MS" size="20" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Datos de Cliente y Mascota]]></text>
+				</staticText>
+			</band>
+		</groupHeader>
+	</group>
+	<background>
+		<band height="752" splitType="Stretch">
+			<image onErrorType="Blank">
+				<reportElement x="0" y="0" width="572" height="752" uuid="77e38335-8592-4bbc-96d3-39ae8732d715"/>
+				<imageExpression><![CDATA[$P{imagenMembrete}]]></imageExpression>
+			</image>
+		</band>
+	</background>
+	<pageHeader>
+		<band height="109" splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="128" splitType="Stretch">
+			<staticText>
+				<reportElement x="17" y="24" width="531" height="71" uuid="db6e8ed6-650b-4da8-9433-530c8e669c19"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial Rounded MT Bold" size="50"/>
+				</textElement>
+				<text><![CDATA[Carné de Vacunación]]></text>
+			</staticText>
+			<line>
+				<reportElement x="17" y="106" width="531" height="1" forecolor="#1A6DAF" uuid="96d2f40e-c867-4dc1-a9c7-4ffd5552a01c"/>
+				<graphicElement>
+					<pen lineWidth="3.0" lineStyle="Double"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="17" y="10" width="531" height="1" forecolor="#1A6DAF" uuid="df0ae6ab-a566-4662-9b25-39df10a3f89f"/>
+				<graphicElement>
+					<pen lineWidth="3.0" lineStyle="Double"/>
+				</graphicElement>
+			</line>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="59" splitType="Stretch">
+			<textField>
+				<reportElement x="420" y="2" width="140" height="20" uuid="fc74c216-4100-472a-a120-c7958809013c"/>
+				<textFieldExpression><![CDATA[$F{Veterinario}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd MMMMM yyyy">
+				<reportElement x="270" y="2" width="128" height="20" uuid="4f6d4a78-1064-4afa-8b7d-4f13e2c3c383"/>
+				<textFieldExpression><![CDATA[$F{fechaAplicacion}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="119" y="2" width="138" height="55" uuid="ed89d4ea-10cd-4325-b9dd-32325e23903a"/>
+				<textFieldExpression><![CDATA[$F{observaciones}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="4" y="2" width="107" height="20" uuid="9ed986f9-9005-4d5c-afbb-f3f35ab92f47"/>
+				<textFieldExpression><![CDATA[$F{nombreVacuna}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="2" y="57" width="568" height="1" forecolor="#433D3D" uuid="fd9a14e2-94c2-4dc8-9565-8aca9038a520"/>
+				<graphicElement>
+					<pen lineWidth="1.5"/>
+				</graphicElement>
+			</line>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="54" splitType="Stretch"/>
+	</pageFooter>
+</jasperReport>
