@@ -91,7 +91,7 @@ public class VacunacionController implements Initializable{
         AnchorPane.setLeftAnchor(fecha, 0.0);
         anchorPaneFin.setPrefWidth(0);      
         anchorPaneFin.setMinWidth(294);        
-        anchorPaneFin.setMaxWidth(294);        
+        anchorPaneFin.setMaxWidth(Double.MAX_VALUE);        
         fecha.setStyle("-fx-alignment: CENTER;");
         grpFechaAplicacion.add(anchorPaneFin, 3, 0);
         

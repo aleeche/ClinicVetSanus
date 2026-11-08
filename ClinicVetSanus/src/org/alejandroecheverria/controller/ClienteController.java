@@ -85,7 +85,7 @@ public class ClienteController implements Initializable{
         AnchorPane.setLeftAnchor(fecha, 0.0);
         anchorPaneFin.setPrefWidth(0);      
         anchorPaneFin.setMinWidth(293.5);        
-        anchorPaneFin.setMaxWidth(293.5);        
+        anchorPaneFin.setMaxWidth(Double.MAX_VALUE);        
         fecha.setStyle("-fx-alignment: CENTER;");
         grpFechaRegistro.add(anchorPaneFin, 1, 3);
         

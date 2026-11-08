@@ -87,7 +87,7 @@ public class TratamientoController implements Initializable{
         AnchorPane.setLeftAnchor(fechaInicio, 0.0);
         anchorPaneFin.setPrefWidth(0);      
         anchorPaneFin.setMinWidth(282.5);        
-        anchorPaneFin.setMaxWidth(282.5);        
+        anchorPaneFin.setMaxWidth(Double.MAX_VALUE);        
         fechaInicio.setStyle("-fx-alignment: CENTER;");
         grpFechaInicioFin.add(anchorPaneFin, 1, 1);
         
@@ -99,7 +99,7 @@ public class TratamientoController implements Initializable{
         AnchorPane.setLeftAnchor(fechaFin, 0.0);
         anchorPaneFinDos.setPrefWidth(0);      
         anchorPaneFinDos.setMinWidth(288.5);        
-        anchorPaneFinDos.setMaxWidth(288.5);        
+        anchorPaneFinDos.setMaxWidth(Double.MAX_VALUE);        
         fechaFin.setStyle("-fx-alignment: CENTER;");
         grpFechaInicioFin.add(anchorPaneFinDos, 3, 1);
         

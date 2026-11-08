@@ -15,6 +15,13 @@ Blanco #F2F2F2
 
 }
 
+/* Barra lateral de las vistas, se estira con la ventana al maximizar */
+.panelLateral{
+    -fx-background-color: #F45EAC; /* Color de fondo */
+    -fx-border-color: #433D3D; /* Color del borde */
+    -fx-border-width: 4px; /* Ancho del borde */
+}
+
 .button1{
     -fx-background-color: #25ABBE; /* Color de fondo */
     -fx-background-radius: 7 7 7 7; /* Radio de los bordes */
@@ -81,7 +88,8 @@ Blanco #F2F2F2
 
 .paneUsuario{
     -fx-background-color: linear-gradient(to top, #1A6DAF , #25ABBE); /* Color de fondo */
-    
+    -fx-border-color: #433D3D; /* Color del borde */
+    -fx-border-width: 4px; /* Ancho del borde */
 }
 
 .buttonUsuario{

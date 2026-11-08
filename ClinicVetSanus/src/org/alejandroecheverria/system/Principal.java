@@ -37,13 +37,23 @@
 package org.alejandroecheverria.system;
 
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
 import javafx.application.Application;
+import javafx.application.Platform;
+import javafx.beans.Observable;
+import javafx.beans.binding.Bindings;
+import javafx.beans.binding.DoubleBinding;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.fxml.JavaFXBuilderFactory;
+import javafx.geometry.Insets;
+import javafx.scene.Group;
+import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
-import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Region;
 import javafx.stage.Stage;
 import org.alejandroecheverria.controller.CitaController;
 import org.alejandroecheverria.controller.ClienteController;
@@ -68,9 +78,22 @@ import org.alejandroecheverria.controller.VeterinarioController;
 public class Principal extends Application {
     /*Variable constante*/
     private final String PAQUETE_VISTA = "/org/alejandroecheverria/view/";
+    /*Clase CSS del contenido que se agranda proporcionalmente para llenar la ventana*/
+    private final String CLASE_ESCALABLE = "escalable";
+    /*Clase CSS que limita cuánto se agranda ese contenido (para formularios)*/
+    private final String CLASE_ESCALA_MODERADA = "escalaModerada";
+    private final double ESCALA_MODERADA = 1.6;
     private Stage escenarioPrincipal;
     private Scene escena;
-    
+    /*Grosor de los bordes y barra de título de la ventana (se mide al mostrarla)*/
+    private double anchoDecoracion = 0;
+    private double altoDecoracion = 0;
+    /*Tamaño de diseño de la vista actual, se usa como tamaño mínimo de la ventana*/
+    private double anchoMinimo = 0;
+    private double altoMinimo = 0;
+    /*Indica si se cambió de vista mientras la ventana estaba maximizada*/
+    private boolean ajustarAlRestaurar = false;
+
     public static void main(String[] args) {
         launch(args);
     }
@@ -84,10 +107,28 @@ public class Principal extends Application {
         escenarioPrincipal.getIcons().add(new Image("/org/alejandroecheverria/image/LogoVetSanusBeta1.png"));
 //        escenarioPrincipal.setScene(escena);
 //        menuPrincipal();
+        /*Permitir maximizar y redimensionar todas las ventanas*/
+        escenarioPrincipal.setResizable(true);
+        escenarioPrincipal.maximizedProperty().addListener((observable, estabaMaximizada, estaMaximizada) -> {
+            if (!estaMaximizada && ajustarAlRestaurar) {
+                /*Al restaurar, la ventana toma el tamaño de la vista que se abrió estando maximizada*/
+                ajustarAlRestaurar = false;
+                Platform.runLater(() -> {
+                    Parent vista = escena.getRoot();
+                    /*Liberar la vista de la escena actual para pasarla a una nueva*/
+                    escena.setRoot(new Group());
+                    mostrarConTamanoDeDiseno(vista);
+                });
+            }
+        });
         ventanaLogin();
-       
+
         escenarioPrincipal.show();
-        escenarioPrincipal.setResizable(false);
+        /*Medir los bordes del sistema para que el tamaño mínimo respete el diseño de cada vista*/
+        /*Con escalado de pantalla (125%, 150%) la medida varía en decimales, por eso se deja 1 px de tolerancia*/
+        anchoDecoracion = Math.max(0, Math.floor(escenarioPrincipal.getWidth() - escena.getWidth()) - 1);
+        altoDecoracion = Math.max(0, Math.floor(escenarioPrincipal.getHeight() - escena.getHeight()) - 1);
+        aplicarTamanoMinimo();
     }
     
     public void menuPrincipal(){
@@ -259,13 +300,77 @@ public class Principal extends Application {
         InputStream archivo = Principal.class.getResourceAsStream(PAQUETE_VISTA+fxml);
         cargadorFXML.setBuilderFactory(new JavaFXBuilderFactory());
         cargadorFXML.setLocation(Principal.class.getResource(PAQUETE_VISTA+fxml));
-        escena = new Scene((AnchorPane)cargadorFXML.load(archivo),ancho,alto);
-        escenarioPrincipal.setScene(escena);
-        escenarioPrincipal.sizeToScene();
-        
-        /*Centrar la ventana antes de mostrarla*/
-        escenarioPrincipal.centerOnScreen();
+        Parent vista = cargadorFXML.load(archivo);
+        aplicarEscalado(vista);
+        /*El tamaño de diseño de la vista también es el tamaño mínimo de la ventana*/
+        anchoMinimo = ancho;
+        altoMinimo = alto;
+        /*Liberar el mínimo de la vista anterior para poder ajustar la ventana a la nueva*/
+        escenarioPrincipal.setMinWidth(0);
+        escenarioPrincipal.setMinHeight(0);
+        if (escena != null && escenarioPrincipal.isMaximized()) {
+            /*Solo se cambia el contenido para que la ventana siga maximizada*/
+            escena.setRoot(vista);
+            ajustarAlRestaurar = true;
+        } else {
+            mostrarConTamanoDeDiseno(vista);
+        }
+        aplicarTamanoMinimo();
         resultado = (Initializable)cargadorFXML.getController();
         return resultado;
+    }
+
+    /*Muestra la vista en una escena con su tamaño de diseño y centra la ventana*/
+    private void mostrarConTamanoDeDiseno(Parent vista){
+        escena = new Scene(vista, anchoMinimo, altoMinimo);
+        escenarioPrincipal.setScene(escena);
+        escenarioPrincipal.sizeToScene();
+        /*Centrar la ventana*/
+        escenarioPrincipal.centerOnScreen();
+    }
+
+    /*
+     * Agranda sin deformar el contenido marcado con la clase "escalable" para que llene su
+     * contenedor, igual que en el tamaño original. Todos los contenidos de una vista usan la
+     * misma escala y nunca se reducen por debajo de su tamaño de diseño.
+     */
+    private void aplicarEscalado(Parent vista){
+        List<Region> contenidos = new ArrayList<>();
+        List<Observable> dependencias = new ArrayList<>();
+        for (Node nodo : vista.lookupAll("." + CLASE_ESCALABLE)) {
+            if (nodo instanceof Region contenido && contenido.getParent() instanceof Region contenedor) {
+                contenidos.add(contenido);
+                dependencias.add(contenedor.widthProperty());
+                dependencias.add(contenedor.heightProperty());
+            }
+        }
+        if (contenidos.isEmpty()) {
+            return;
+        }
+        DoubleBinding escala = Bindings.createDoubleBinding(() -> {
+            double factor = Double.MAX_VALUE;
+            for (Region contenido : contenidos) {
+                Region contenedor = (Region) contenido.getParent();
+                Insets margen = contenedor.getInsets();
+                double ancho = contenedor.getWidth() - margen.getLeft() - margen.getRight();
+                double alto = contenedor.getHeight() - margen.getTop() - margen.getBottom();
+                factor = Math.min(factor, Math.min(ancho / contenido.prefWidth(-1), alto / contenido.prefHeight(-1)));
+                if (contenido.getStyleClass().contains(CLASE_ESCALA_MODERADA)) {
+                    factor = Math.min(factor, ESCALA_MODERADA);
+                }
+            }
+            /*Se redondea a centésimas para que en el tamaño de diseño la escala sea exactamente 1*/
+            return Math.max(1.0, Math.floor(factor * 100) / 100);
+        }, dependencias.toArray(new Observable[0]));
+        for (Region contenido : contenidos) {
+            contenido.scaleXProperty().bind(escala);
+            contenido.scaleYProperty().bind(escala);
+        }
+    }
+
+    /*Evita que la ventana se reduzca por debajo del tamaño de diseño de la vista actual*/
+    private void aplicarTamanoMinimo(){
+        escenarioPrincipal.setMinWidth(anchoMinimo + anchoDecoracion);
+        escenarioPrincipal.setMinHeight(altoMinimo + altoDecoracion);
     }
 }

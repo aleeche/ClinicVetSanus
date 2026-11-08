@@ -84,7 +84,7 @@ public class VeterinarioController implements Initializable {
         AnchorPane.setLeftAnchor(fecha, 0.0);
         anchorPaneFin.setPrefWidth(0);      
         anchorPaneFin.setMinWidth(281.5);        
-        anchorPaneFin.setMaxWidth(281.5);        
+        anchorPaneFin.setMaxWidth(Double.MAX_VALUE);        
         fecha.setStyle("-fx-alignment: CENTER;");
         grpFechaIngreso.add(anchorPaneFin, 1, 3);
         

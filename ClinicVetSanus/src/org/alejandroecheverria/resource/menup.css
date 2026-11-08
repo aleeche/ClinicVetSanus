@@ -54,6 +54,29 @@ Blanco #F2F2F2
 
 }
 
+/* Fondo del programador con marco café (el marco no ocupa espacio en el diseño) */
+.fondoProgramador {
+    -fx-background-color: #433D3D, linear-gradient(to top, #1A6DAF , #F45EAC);
+    -fx-background-insets: 0, 5;
+}
+
+/* Fondo alrededor del menú principal cuando la ventana está maximizada */
+.fondoMenu {
+    -fx-background-color: radial-gradient(center 50% 50%, radius 75%, #F2F2F2, #A8DEE6);
+}
+
+/* Fondo ambiental del menú: la misma imagen estirada y desenfocada llena los lados al maximizar */
+.fondoMenuDifuso {
+    -fx-background-image: url("../image/fondo.png");
+    -fx-background-size: stretch;
+    -fx-background-repeat: no-repeat;
+}
+
+/* Sombra del menú principal, solo se ve cuando la ventana es más grande que el menú */
+.tarjetaMenu {
+    -fx-effect: dropshadow(gaussian, rgba(67, 61, 61, 0.45), 40, 0.15, 0, 0);
+}
+
 .textField{
     -fx-text-fill: #433D3D; /* Color del texto */
     

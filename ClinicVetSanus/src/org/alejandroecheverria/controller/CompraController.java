@@ -78,7 +78,7 @@ public class CompraController implements Initializable{
         AnchorPane.setLeftAnchor(fecha, 0.0);
         anchorPaneFin.setPrefWidth(0);      
         anchorPaneFin.setMinWidth(310);        
-        anchorPaneFin.setMaxWidth(310);        
+        anchorPaneFin.setMaxWidth(Double.MAX_VALUE);        
         fecha.setStyle("-fx-alignment: CENTER;");
         grpFechaCompra.add(anchorPaneFin, 3, 0);
         

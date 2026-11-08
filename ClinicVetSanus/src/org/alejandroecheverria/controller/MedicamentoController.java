@@ -84,7 +84,7 @@ public class MedicamentoController implements Initializable{
         AnchorPane.setLeftAnchor(fecha, 0.0);
         anchorPaneFin.setPrefWidth(0);      
         anchorPaneFin.setMinWidth(309.5);        
-        anchorPaneFin.setMaxWidth(309.5);        
+        anchorPaneFin.setMaxWidth(Double.MAX_VALUE);        
         fecha.setStyle("-fx-alignment: CENTER;");
         grpFechaVencimiento.add(anchorPaneFin, 3, 2);
         
