@@ -1297,11 +1297,6 @@ Delimiter ;
 
 
 -- ----------------- ENTIDAD COMPRAS --------------------------
-codigoCompra int not null auto_increment,
-    fechaCompra date not null,
-    total decimal(10,2) not null,
-    detalle varchar(255) not null,
-    codigoProveedor int not null
 -- AGREGAR COMPRA
 Delimiter //
 	create procedure sp_AgregarCompra (
