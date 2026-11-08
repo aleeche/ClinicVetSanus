@@ -14,6 +14,7 @@ recetas, facturación y compras, además de generar reportes en PDF.
 - [Características](#características)
 - [Tecnologías](#tecnologías)
 - [Arquitectura del proyecto](#arquitectura-del-proyecto)
+- [Instalador para Windows](#instalador-para-windows)
 - [Requisitos previos](#requisitos-previos)
 - [Librerías (APIJavaFXIN5AM)](#librerías-apijavafxin5am)
 - [Configuración de la base de datos](#configuración-de-la-base-de-datos)
@@ -105,6 +106,76 @@ DBVeterinaria2021222.sql   # Script completo de la base de datos (esquema, proce
    **procedimientos almacenados** correspondientes para las operaciones CRUD.
 4. Los reportes se generan con `GenerarReporte.mostrarReporte(...)`, que carga la plantilla
    `.jasper`, la rellena con la conexión activa y la muestra en un `JasperViewer`.
+
+---
+
+## Instalador para Windows
+
+Para usar la aplicación **no hace falta** instalar Java, MySQL ni las librerías: el instalador
+`ClinicVetSanus-Setup-<versión>.exe` incluye todo.
+
+### Instalar la aplicación
+
+1. Ejecuta `ClinicVetSanus-Setup-<versión>.exe` (pide permisos de administrador).
+2. Ingresa los datos del **administrador del sistema** (el usuario con el que iniciarás sesión).
+3. Opcional: marca **Cargar datos de ejemplo** (incluye además el usuario de prueba `aeche` / `12345`).
+4. Al terminar, abre **Clinic VetSanus** desde el menú Inicio o el escritorio.
+
+Qué instala:
+
+| Qué | Dónde |
+|-----|-------|
+| Aplicación (con Java 21 y JavaFX incluidos) | `C:\Program Files\ClinicVetSanus\` |
+| MySQL 8.4, como servicio de Windows **`ClinicVetSanusDB`** (inicio automático, solo acepta conexiones del propio equipo, puerto 3307 o el siguiente libre) | `C:\Program Files\ClinicVetSanus\mysql\` |
+| Datos, `my.ini`, `config.properties` (conexión de la app) y registros | `C:\ProgramData\ClinicVetSanus\` |
+| Contraseña del usuario `root` de MySQL (solo legible por administradores) | `C:\ProgramData\ClinicVetSanus\credenciales-root.txt` |
+
+- **Reinstalar o actualizar** conserva la base de datos: solo se reemplazan los programas.
+- **Desinstalar** pregunta si se borran también los datos (por defecto **no**).
+- Si la base de datos no se pudo configurar, el detalle queda en
+  `C:\ProgramData\ClinicVetSanus\logs\instalacion.log` (y el de MySQL en `mysql.err`).
+
+### Generar el instalador
+
+Requisitos: Windows 10/11 de 64 bits, **JDK 21** (con `jpackage`, incluido en el JDK) y conexión a
+Internet la primera vez.
+
+```powershell
+powershell -ExecutionPolicy Bypass -File installer\build-installer.ps1 -Version 1.0.0
+```
+
+Resultado: `installer\output\ClinicVetSanus-Setup-1.0.0.exe` (~80 MB).
+
+El script [`installer/build-installer.ps1`](installer/build-installer.ps1):
+
+1. Descarga una sola vez en `installer\vendor\` (ignorado por git) MySQL 8.4 LTS, los JavaFX
+   jmods 23.0.2, el Visual C++ Redistributable e Inno Setup 6 (portable), y verifica su SHA-256.
+2. Compila el código y arma `ClinicVetSanus.jar` con sus librerías (no necesita NetBeans).
+3. Crea `ClinicVetSanus.exe` con **jpackage**, incluyendo un Java 21 reducido con JavaFX.
+4. Separa `DBVeterinaria2021222.sql` en `01_esquema.sql` (sin el `drop database`) y
+   `02_datos_ejemplo.sql` (las llamadas `call sp_Agregar...` / `sp_Editar...`).
+5. Copia una versión reducida de MySQL (~100 MB en lugar de 1.2 GB).
+6. Compila [`installer/ClinicVetSanus.iss`](installer/ClinicVetSanus.iss) con Inno Setup.
+
+Durante la instalación, [`installer/scripts/configurar-bd.ps1`](installer/scripts/configurar-bd.ps1)
+inicializa MySQL, registra el servicio, crea la base y los usuarios, y escribe
+`config.properties`. La aplicación se conecta con un usuario propio (`vetsanus_app`) con permisos
+solo sobre `DBVeterinaria2021222`.
+
+> Para probar el script de base de datos sin instalar nada, usa `-SinServicio`: levanta MySQL como
+> proceso normal en la carpeta indicada en `-DirDatos`, sin servicio ni permisos de administrador.
+
+Limitaciones conocidas:
+
+- Solo **Windows 10/11 de 64 bits** y **un solo equipo** (MySQL no acepta conexiones de la red).
+- El instalador **no está firmado**: Windows SmartScreen mostrará "Windows protegió su PC"
+  (*Más información* → *Ejecutar de todas formas*).
+- No hay actualizaciones automáticas ni respaldos programados. Si cambia la estructura de la
+  base, una nueva versión debe incluir scripts de migración (el instalador no vuelve a ejecutar
+  `01_esquema.sql` sobre una base existente).
+- La instalación silenciosa (`/SILENT`) solo sirve para actualizar: una instalación nueva necesita
+  los datos del administrador del asistente.
+- MySQL Community se distribuye bajo GPLv2; antes de vender la aplicación revisa su licencia.
 
 ---
 
@@ -243,26 +314,44 @@ almacenados y datos de ejemplo.
 
 3. El script crea un usuario administrativo y datos de prueba (clientes, usuario del sistema, etc.).
 
+> **Si editas el script**, el instalador lo separa automáticamente en esquema y datos de ejemplo.
+> Para que eso funcione, las sentencias de datos fuera de los procedimientos (`call`, `insert`,
+> `update`, `delete`) deben ocupar **una sola línea**; si no, `build-installer.ps1` se detiene
+> indicando la línea.
+
 ---
 
 ## Configuración de la conexión
 
-La conexión a la base de datos está definida en
-`ClinicVetSanus/src/org/alejandroecheverria/db/Conexion.java` (patrón **Singleton**):
+La conexión a la base de datos está en
+`ClinicVetSanus/src/org/alejandroecheverria/db/Conexion.java` (patrón **Singleton**).
+Los datos se toman, en este orden, de:
 
-```java
-conexion = DriverManager.getConnection(
-    "jdbc:mysql://localhost:3306/DBVeterinaria2021222?useSSL=false",
-    "quintom", "admin");
-```
-
-Si tu usuario, contraseña o host de MySQL son diferentes, edita esta línea antes de
-compilar. La aplicación espera:
+1. La propiedad de la JVM `-Dvetsanus.config=<ruta a un .properties>`.
+2. La variable de entorno `VETSANUS_CONFIG` (misma idea).
+3. En la aplicación instalada: `C:\ProgramData\ClinicVetSanus\config.properties`, que escribe el
+   instalador.
+4. Si no aplica nada de lo anterior (por ejemplo, al ejecutar desde NetBeans), los valores de
+   desarrollo:
 
 - **Host / puerto:** `localhost:3306`
 - **Base de datos:** `DBVeterinaria2021222`
 - **Usuario:** `quintom`
 - **Contraseña:** `admin`
+
+Formato del archivo:
+
+```properties
+db.host=127.0.0.1
+db.puerto=3307
+db.nombre=DBVeterinaria2021222
+db.usuario=vetsanus_app
+db.contrasena=...
+```
+
+Si la conexión falla, la aplicación muestra un mensaje con el servidor y el motivo. Además, se
+vuelve a conectar sola si MySQL cierra la conexión (por ejemplo, tras horas sin uso) o si el
+servidor se inicia después que la aplicación.
 
 ---
 
